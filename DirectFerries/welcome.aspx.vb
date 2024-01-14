@@ -27,6 +27,7 @@
         Dim strMonth As String
         Dim strYear As String
         Dim strDateOfBirth As String = "" 
+        Dim intDays As Integer = 0
         Dim intYearsOld As Integer = 0
         Dim strBirthdayDayMonth As String = ""
         Dim intDaysUntil As Integer = 0
@@ -56,12 +57,14 @@
             End If
 
             'Display welcome details
-            ltlFirstName.Text = strFirstName
+            ltlFirstName.Text = Server.HtmlEncode(strFirstName)
             ltlVowelCount.Text = GetVowelCount(strFirstName)
 
             'Calculate how old someone is
-            intYearsOld = DateDiff(DateInterval.Year, Convert.ToDateTime(strDateOfBirth), Date.Today)
-            ltlYearsOld.Text = intYearsOld           
+            'intYearsOld = DateDiff(DateInterval.Year, Convert.ToDateTime(strDateOfBirth), Date.Today)
+
+            intDays = DateDiff(DateInterval.Day, Convert.ToDateTime(strDateOfBirth), Date.Today)
+            intYearsOld = Math.Floor(intDays / 365.25)                                   
             
             'Calculate the number of days until their next birthday
             strBirthdayDayMonth = strDay & "-" & strMonth & "-" & Date.Today.Year
@@ -75,6 +78,12 @@
 
             End If
 
+            If intDaysUntil = 0 Then
+                intYearsOld = intYearsOld + 1
+                intDaysUntil = 365
+            End If
+
+            ltlYearsOld.Text = intYearsOld
             ltlDaysUntil.Text = intDaysUntil
 
             'Build 14 day birthday run up table
