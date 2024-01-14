@@ -10,7 +10,7 @@
 
             strChar = Mid(strFirstName, i, 1)
 
-            If InStr("aeiou", strChar) > 0 Then
+            If InStr("aeiou", strChar.ToLower()) > 0 Then
                 intVowelCount = intVowelCount + 1
             End If
 
